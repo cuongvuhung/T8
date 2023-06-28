@@ -14,7 +14,7 @@ namespace T8
 {
     internal class EmployeeManager
     {
-        private readonly string dataFileName = @"T8.csv";
+        private readonly string dataFileName = @"T8data.csv";
         Dictionary<int, Employee> employees = new ();
 
         // Contructor
