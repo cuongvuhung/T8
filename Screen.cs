@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Data;
 using System.Linq;
 using System.Net;
@@ -19,8 +20,14 @@ namespace T8
         private int idLogin;
         EmployeeManager manager = new EmployeeManager();
         public Screen() { }
+        
+        // Start Screen
         public void Start()
-        {            
+        {
+            Console.Clear();
+            Console.WriteLine("***EMPLOYEE MANAGER***");
+            Console.WriteLine("***  BEGIN SCREEN  ***");
+            Console.WriteLine("----------------------");
             do
             {
                 string login = Login();
@@ -48,28 +55,35 @@ namespace T8
             Console.WriteLine("----------------------");
             do
             {
-                Console.Write("ID:");
-                idLogin = (Convert.ToInt32(Console.ReadLine()));
-                Console.Write("Password:");
-                passwordLogin = (Console.ReadLine() + "");
-                if (!manager.IsValid(idLogin))
-                {
-                    Console.WriteLine("Invalid username");
+                try 
+                { 
+                    Console.Write("ID:");
+                    idLogin = (Convert.ToInt32(Console.ReadLine()));
+                    Console.Write("Password:");
+                    passwordLogin = (Console.ReadLine() + "");
+                    if (!manager.IsValid(idLogin))
+                    {
+                        Console.WriteLine("Invalid username");
+                        Console.ReadLine();
+                        continue;
+                    }
+                    if (!manager.IsPassword(idLogin, passwordLogin))
+                    {
+                        Console.WriteLine("Wrong password");
+                        Console.ReadLine();
+                        continue;
+                    }                
+                    this.loged = true;
+                    if (manager.IsManager(idLogin)) role = "manager";
+                    if (!manager.IsManager(idLogin)) role = "user";
+                    Console.WriteLine("Login succesful");
                     Console.ReadLine();
-                    continue;
+                    Console.Clear();
                 }
-                if (!manager.IsPassword(idLogin, passwordLogin))
+                catch 
                 {
-                    Console.WriteLine("Wrong password");
-                    Console.ReadLine();
-                    continue;
-                }                
-                this.loged = true;
-                if (manager.IsManager(idLogin)) role = "manager";
-                if (!manager.IsManager(idLogin)) role = "user";
-                Console.WriteLine("Login succesful");
-                Console.ReadLine();
-                Console.Clear();
+                    Console.Write("Wrong format!"); Console.ReadLine();
+                }
             }
             while (!loged);
             return role;
@@ -137,7 +151,7 @@ namespace T8
                         Console.WriteLine("-------- END ---------");
                         break;
                     default:
-                        Console.WriteLine("Invalid");
+                        Console.Write("Wrong format!"); Console.ReadLine();
                         break;
                 }
             } while (selected != 9 && loged);
@@ -183,7 +197,7 @@ namespace T8
                     case 4:
                         break;
                     default:
-                        Console.WriteLine("Invalid");
+                        Console.Write("Wrong format!"); Console.ReadLine();
                         break;
                 }
             } while (selected != 4 && loged);
@@ -193,7 +207,7 @@ namespace T8
         public void FindScreen() 
         {
             Console.Clear();
-            Console.WriteLine("ID:");
+            Console.Write("ID:");
             int keyFind = 0;
             try
             {
@@ -201,7 +215,7 @@ namespace T8
             }
             catch
             {
-                Console.WriteLine("Wrong format!");
+                Console.Write("Wrong format!"); Console.ReadLine();
             }
             manager.Find(keyFind);
         }
@@ -213,31 +227,31 @@ namespace T8
             string name, password, email, phone, birthday, address;
             bool male, isManager;
             Console.Clear();
-            Console.WriteLine("ID:");
+            Console.Write("ID:");
             try
             {
                 id = Convert.ToInt32(Console.ReadLine());
-                Console.WriteLine("Name:");
+                Console.Write("Name:");
                 name = Console.ReadLine() + "";
-                Console.WriteLine("Password:");
+                Console.Write("Password:");
                 password = Console.ReadLine() + "";
-                Console.WriteLine("Email:");
+                Console.Write("Email:");
                 email = Console.ReadLine() + "";
-                Console.WriteLine("Phone:");
+                Console.Write("Phone:");
                 phone = Console.ReadLine() + "";
-                Console.WriteLine("Birthday:");
+                Console.Write("Birthday:");
                 birthday = Console.ReadLine() + "";
-                Console.WriteLine("Address:");
+                Console.Write("Address:");
                 address = Console.ReadLine() + "";
-                Console.WriteLine("Male:");
+                Console.Write("Male:");
                 male = Convert.ToBoolean(Console.ReadLine());
-                Console.WriteLine("Is Manager:");
+                Console.Write("Is Manager:");
                 isManager = Convert.ToBoolean(Console.ReadLine());
                 manager.AddNew(id, name, password, email, phone,birthday, address,male,isManager);
             }
             catch
             {
-                Console.WriteLine("Wrong format!");
+                Console.Write("Wrong filename!"); Console.ReadLine();
             }
         }
 
@@ -245,7 +259,7 @@ namespace T8
         public void UpdateScreen() 
         {
             Console.Clear();
-            Console.WriteLine("ID:");
+            Console.Write("ID:");
             int keyUpdate = 0;            
             string name, password, email, phone, birthday, address;
             bool male, isManager;
@@ -255,41 +269,50 @@ namespace T8
             }
             catch
             {
-                Console.WriteLine("Wrong format!");
+                Console.Write("Wrong format!"); Console.ReadLine();
             }
-            if (manager.IsValid(keyUpdate)) manager.Find(keyUpdate);
-            try
+            if (manager.IsValid(keyUpdate))
             {
-                Console.WriteLine("name:");
-                name = Console.ReadLine() + "";
-                Console.WriteLine("Password:");
-                password = Console.ReadLine() + "";
-                Console.WriteLine("Email:");
-                email = Console.ReadLine() + "";
-                Console.WriteLine("Phone:");
-                phone = Console.ReadLine() + "";
-                Console.WriteLine("Birthday:");
-                birthday = Console.ReadLine() + "";
-                Console.WriteLine("Address:");
-                address = Console.ReadLine() + "";
-                Console.WriteLine("Male:");
-                male = Convert.ToBoolean(Console.ReadLine());
-                Console.WriteLine("Is Manager:");
-                isManager = Convert.ToBoolean(Console.ReadLine());
-                manager.Update(keyUpdate, name, password, email, phone, birthday, address, male, isManager);
+                manager.Find(keyUpdate);
+                try
+                {
+                    Console.Write("name:");
+                    name = Console.ReadLine() + "";
+                    Console.WriteLine("Password:");
+                    password = Console.ReadLine() + "";
+                    Console.Write("Email:");
+                    email = Console.ReadLine() + "";
+                    Console.Write("Phone:");
+                    phone = Console.ReadLine() + "";
+                    Console.Write("Birthday:");
+                    birthday = Console.ReadLine() + "";
+                    Console.Write("Address:");
+                    address = Console.ReadLine() + "";
+                    Console.Write("Male:");
+                    male = Convert.ToBoolean(Console.ReadLine());
+                    Console.Write("Is Manager:");
+                    isManager = Convert.ToBoolean(Console.ReadLine());
+                    manager.Update(keyUpdate, name, password, email, phone, birthday, address, male, isManager);
+                }
+                catch
+                {
+                    Console.Write("Wrong format!"); Console.ReadLine();
+                }
             }
-            catch
-            {
-                Console.WriteLine("Wrong format!");
+            else
+            { 
+                Console.Write("Invalid ID!"); Console.ReadLine(); 
             }
+
+            
         }
 
         // Delete Screen
         public void DeleteScreen()
         {
             Console.Clear();
-            Console.WriteLine("ID:");
-            int keyDelete;
+            Console.Write("ID:");
+            int keyDelete = 0;         
             try
             {
                 keyDelete = Convert.ToInt32(Console.ReadLine());
@@ -297,15 +320,15 @@ namespace T8
             }
             catch
             {
-                Console.WriteLine("Wrong format!");
-            }
+                Console.Write("Wrong format!"); Console.ReadLine();
+            }            
         }
 
         // Import Screen
         public void ImportScreen() 
         {
             Console.Clear();
-            Console.WriteLine("File name:");
+            Console.Write("File name:");
             string fileName = @""+(Console.ReadLine()+".csv");
             try
             {
@@ -313,7 +336,7 @@ namespace T8
             }
             catch
             {
-                Console.WriteLine("Bad file name!");
+                Console.Write("Bad file input!"); Console.ReadLine();
             }
         }
 
@@ -323,14 +346,7 @@ namespace T8
             Console.Clear();
             Console.WriteLine("File name:");
             string fileName = @"" + (Console.ReadLine() + ".csv");
-            try
-            {
-                if (!File.Exists(fileName)) manager.Export(fileName);
-            }
-            catch
-            {
-                Console.WriteLine("Bad file name!");
-            }
+            manager.Export(fileName);                            
         }
 
         // Sort Sreen
