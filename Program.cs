@@ -5,7 +5,7 @@
         static void Main()
         {
             Screen screen = new();
-            screen.Start();
+            screen.Start();            
         }
     }
 }

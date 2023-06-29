@@ -17,8 +17,8 @@ namespace T8
     {
         //private static readonly string logPath = "T7log.txt";
         private bool loged = false;
-        private int idLogin;
-        EmployeeManager manager = new EmployeeManager();
+        private int idLogin;        
+        EmployeeManager manager = new();
         public Screen() { }
         
         // Start Screen
@@ -105,7 +105,7 @@ namespace T8
                 Console.WriteLine("2. Add New Employee");
                 Console.WriteLine("3. Update Employee");
                 Console.WriteLine("4. Delete Employee");
-                Console.WriteLine("5. Show all Employee sorted");
+                Console.WriteLine("5. Show a List of Employee Sorted");
                 Console.WriteLine("6. Import a list of Employee");
                 Console.WriteLine("7. Export a list of Employee");
                 Console.WriteLine("8. Logout");
@@ -170,7 +170,7 @@ namespace T8
                 Console.WriteLine("ID Login: {0}", idLogin);
                 Console.WriteLine("----------------------");
                 Console.WriteLine("1. Search Employee by Name or EmpNo");
-                Console.WriteLine("2. Show all Employee");
+                Console.WriteLine("2. Show a List of Employee Sorted");
                 Console.WriteLine("3. Log out");
                 Console.WriteLine("4. Exit");
                 Console.Write("   Select (1-4): ");
@@ -346,7 +346,7 @@ namespace T8
             Console.Clear();
             Console.WriteLine("File name:");
             string fileName = @"" + (Console.ReadLine() + ".csv");
-            manager.Export(fileName);                            
+            manager.ExportToCSV(fileName);                            
         }
 
         // Sort Sreen
